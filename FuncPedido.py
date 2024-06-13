@@ -12,9 +12,9 @@ def precoproduto(conbd,IDProduto,Quantidade):
     sql = "SELECT Preco FROM produtos WHERE ID_Produto = %s"
     val = (IDProduto,)
     mycursor.execute(sql,val)
+    #verificar linha abaixo.
     preco = mycursor.fetchone()[0]
     float(preco)
-    int(Quantidade)
     ValorTotal = preco * Quantidade
     conbd.commit()
     print("Valor Total do Pedido ", ValorTotal)

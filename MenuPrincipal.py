@@ -6,13 +6,14 @@ from mysql.connector import Error
 conbd = conexaobd.conexao()
 
 while True:
-        print("Menu Atualizar")
-        print("1. Atualizar Produtos")
-        print("2. Atualizar Fornecedores")
-        print("3. Atualizar Clientes")
-        print("4. Atualizar Promoções")
-        print("5. Atualizar Funcionários")
-        print("6. Voltar ao Menu Principal")
+        print("Menu Principal")
+        print("Funções")
+        print("1. Cadastrar ")
+        print("2. Deletar ")
+        print("3. Atualizar ")
+        print("4. Listar ")
+        print("5. Pedidos ")
+        print("6. Sair")
 
         opcao = input("Escolha uma opção: ")
 

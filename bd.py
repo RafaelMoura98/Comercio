@@ -1,5 +1,5 @@
 #funções de cadastro
-#integrar categorias do produto dentro da função e usar uma condicional para evitar que no momento
+#integrar categorias do produto dentro da função CadProdutos e usar uma condicional para evitar que no momento
 #de um novo cadastro seja criada uma nova categoria sem a vontade do usuário
 import conexaobd
 from datetime import datetime

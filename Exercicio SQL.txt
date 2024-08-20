@@ -1,0 +1,107 @@
+CREATE TABLE CLIENTES(
+IdCliente int primary key not null auto_increment,
+nome varchar (255),
+sobrenome varchar (255),
+endereco varchar (255),
+cidade varchar (255),
+CodigoPostal varchar (10));
+
+CREATE TABLE PRODUTOS(
+IdProduto int primary key not null auto_increment,
+nome varchar(255),
+descricao text,
+preco decimal(10,2));
+
+CREATE TABLE PEDIDOS(
+IdPedido int primary key not null auto_increment,
+DataPedido date,
+IdCliente_FK int,
+total decimal(10,2),
+constraint fk_Id_Cliente foreign key (IdCliente_FK) references CLIENTES(IdCliente));
+
+CREATE TABLE DETALHESPEDIDO(
+IdCliente_fk int,
+IdPedido_fk int,
+IdProduto_fk int,
+Quantidade int,
+constraint fk_Id_Cliente_dp foreign key (IdCliente_fk) references CLIENTES(IdCliente),
+constraint fk_Id_Pedido_dp foreign key (IdPedido_fk) references PEDIDOS(IdPedido),
+constraint fk_Id_Produto_dp foreign key (IdProduto_fk) references PRODUTOS(IdProduto));
+
+CREATE TABLE PRECOS(
+Id_produto_PR int,
+Data_preco Date,
+preco decimal(10,2),
+
+constraint fk_Id_Produto_PR foreign key (Id_produto_PR) references produtos(IdProduto));
+
+INSERÇÃO DE DADOS
+
+INSERT INTO CLIENTES (nome, sobrenome, endereco, cidade, CodigoPostal) VALUES 
+
+('João', 'Silva', 'Rua das Flores, 123', 'São Paulo', '01234-567'), 
+
+('Maria', 'Santos', 'Avenida Principal, 456', 'Rio de Janeiro', '04567-890'), 
+
+('Carlos', 'Oliveira', 'Travessa das Palmeiras, 789', 'Belo Horizonte', '07890-123'), 
+
+('Ana', 'Pereira', 'Rua dos Passarinhos, 321', 'Porto Alegre', '03210-987');
+
+INSERT INTO produtos (nome, descricao, preco) VALUES 
+
+('Camiseta', 'Camiseta branca de algodão', 29.99), 
+
+('Calça Jeans', 'Calça jeans azul', 59.99), 
+
+('Tênis', 'Tênis preto de corrida', 99.99),
+
+('Óculos de Sol', 'Óculos de sol modelo aviador', 79.99);
+
+INSERT INTO pedidos (DataPedido, IdCliente_FK, total) VALUES 
+
+('2023-01-01', 1, 49.99), 
+
+('2023-02-05', 2, 129.98), 
+
+('2023-03-10', 3, 79.99), 
+
+('2023-04-15', 4, 109.97);
+
+INSERT INTO detalhespedido (IdCliente_fk, IdPedido_fk, IdProduto_fk, Quantidade) VALUES 
+
+(1, 1, 1, 1), 
+
+(2, 2, 2, 2), 
+
+(3, 3, 3, 1), 
+
+(4, 4, 4, 1);
+
+INSERT INTO precos (Id_produto_PR, Data_Preco, preco) VALUES 
+
+(1, '2023-01-01', 29.99), 
+
+(2, '2023-02-01', 59.99), 
+
+(3, '2023-03-01', 99.99), 
+
+(4, '2023-04-01', 79.99);
+
+CONSULTAS
+
+SELECT * FROM clientes;
+SELECT * FROM produtos;
+SELECT * FROM pedidos;
+SELECT * FROM detalhespedido; 
+SELECT * FROM precos;
+SELECT nome,sobrenome FROM clientes;
+SELECT nome,descricao from produtos;
+select DataPedido,total from pedidos;
+select IdProduto_fk,Quantidade from detalhespedido; 
+select IdPedido_fk,IdProduto_fk,Quantidade from detalhespedido where IdCliente_fk = 4;
+Select * from produtos where  preco > 50;
+select IdCliente_FK, IdPedido, total from pedidos where DataPedido = "2023-02-05";
+select * from produtos where preco = 99.99;
+select * from detalhespedido where Quantidade > 1;
+select * from pedidos where total > 100;
+select * from clientes where cidade = "Belo Horizonte";

@@ -1,0 +1,315 @@
+Exercicio 2 
+Criando Tabelas:
+
+CREATE TABLE Clientes ( 
+    ID_Cliente INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+    Nome VARCHAR(255) NOT NULL, 
+    Sobrenome VARCHAR(255) NOT NULL, 
+    Endereco VARCHAR(255) NOT NULL, 
+    Cidade VARCHAR(255) NOT NULL, 
+    CodigoPostal VARCHAR(10) NOT NULL 
+); 
+
+CREATE TABLE Produtos ( 
+    ID_Produto INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+    Nome VARCHAR(255) NOT NULL, 
+    Descricao TEXT NOT NULL, 
+    Preco DECIMAL(10, 2) NOT NULL 
+); 
+
+CREATE TABLE Pedidos ( 
+    ID_Pedido INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+    Data_Pedido DATE NOT NULL, 
+    ID_Cliente INT NOT NULL, 
+    Total DECIMAL(10, 2) NOT NULL, 
+    FOREIGN KEY (ID_Cliente) REFERENCES Clientes(ID_Cliente) 
+); 
+
+CREATE TABLE DetalhesPedido ( 
+    ID_Pedido INT NOT NULL, 
+    ID_Produto INT NOT NULL, 
+    Quantidade INT NOT NULL, 
+    PRIMARY KEY (ID_Pedido, ID_Produto), 
+    FOREIGN KEY (ID_Pedido) REFERENCES Pedidos(ID_Pedido), 
+    FOREIGN KEY (ID_Produto) REFERENCES Produtos(ID_Produto) 
+); 
+
+CREATE TABLE Precos ( 
+    ID_Produto INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+    Data_Preco DATE NOT NULL, 
+    Preco DECIMAL(10, 2) NOT NULL, 
+    FOREIGN KEY (ID_Produto) REFERENCES Produtos(ID_Produto) 
+); 
+
+CREATE TABLE CategoriasProdutos ( 
+    ID_Categoria INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+    Nome VARCHAR(255) NOT NULL, 
+    Descricao TEXT NOT NULL 
+); 
+
+CREATE TABLE Funcionarios ( 
+    ID_Funcionario INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+    Nome VARCHAR(255) NOT NULL, 
+    Cargo VARCHAR(255) NOT NULL, 
+    Departamento VARCHAR(255) NOT NULL 
+); 
+
+CREATE TABLE Fornecedores ( 
+    ID_Fornecedor INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+    Nome VARCHAR(255) NOT NULL, 
+    Contato VARCHAR(255) NOT NULL, 
+    Endereco VARCHAR(255) NOT NULL 
+); 
+
+CREATE TABLE Vendas ( 
+    ID_Venda INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+    Data DATE NOT NULL, 
+    ID_Cliente INT NOT NULL, 
+    MetodoPagamento VARCHAR(255) NOT NULL, 
+    Total DECIMAL(10, 2) NOT NULL, 
+    FOREIGN KEY (ID_Cliente) REFERENCES Clientes(ID_Cliente) 
+); 
+
+CREATE TABLE Pagamentos ( 
+    ID_Pagamento INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+    ID_Venda INT NOT NULL, 
+    Data DATE NOT NULL, 
+    Valor DECIMAL(10, 2) NOT NULL, 
+    FOREIGN KEY (ID_Venda) REFERENCES Vendas(ID_Venda) 
+); 
+
+CREATE TABLE Estoque ( 
+    ID_Produto INT PRIMARY KEY NOT NULL, 
+    Quantidade INT NOT NULL, 
+    FOREIGN KEY (ID_Produto) REFERENCES Produtos(ID_Produto) 
+); 
+
+CREATE TABLE Promocoes ( 
+    ID_Promocao INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+    Nome VARCHAR(255) NOT NULL, 
+    Descricao TEXT NOT NULL, 
+    DataInicio DATE NOT NULL, 
+    DataFim DATE NOT NULL 
+); 
+
+CREATE TABLE ComentariosAvaliacoes ( 
+    ID_ComentarioAvaliacao INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+    ID_Produto INT NOT NULL, 
+    ID_Cliente INT NOT NULL, 
+    Comentario TEXT NOT NULL, 
+    Avaliacao INT NOT NULL, 
+    Data DATE NOT NULL, 
+    FOREIGN KEY (ID_Produto) REFERENCES Produtos(ID_Produto), 
+    FOREIGN KEY (ID_Cliente) REFERENCES Clientes(ID_Cliente) 
+);
+
+Inserindo dados no banco
+-- Inserção de dados na tabela Clientes
+INSERT INTO Clientes (Nome, Sobrenome, Endereco, Cidade, CodigoPostal) 
+VALUES 
+    ('João', 'Silva', 'Rua das Flores, 123', 'São Paulo', '01234-567'),
+    ('Maria', 'Santos', 'Av. Principal, 456', 'Rio de Janeiro', '04567-890'),
+    ('Carlos', 'Ferreira', 'R. das Palmeiras, 789', 'Belo Horizonte', '07890-123');
+
+-- Inserção de dados na tabela Produtos
+INSERT INTO Produtos (Nome, Descricao, Preco) 
+VALUES 
+    ('Camisa', 'Camisa de algodão de cor branca', 29.99),
+    ('Calça Jeans', 'Calça jeans masculina, modelo skinny', 59.99),
+    ('Tênis', 'Tênis esportivo preto, tamanho 42', 79.99);
+
+-- Inserção de dados na tabela Pedidos
+INSERT INTO Pedidos (Data_Pedido, ID_Cliente, Total) 
+VALUES 
+    ('2024-04-16', 1, 89.98),
+    ('2024-04-17', 2, 139.98),
+    ('2024-04-17', 3, 169.97);
+
+-- Inserção de dados na tabela DetalhesPedido
+INSERT INTO DetalhesPedido (ID_Pedido, ID_Produto, Quantidade) 
+VALUES 
+    (1, 1, 2),
+    (1, 3, 1),
+    (2, 2, 1),
+    (2, 3, 2),
+    (3, 1, 1),
+    (3, 2, 1),
+    (3, 3, 2);
+
+-- Inserção de dados na tabela Precos
+INSERT INTO Precos (Data_Preco, Preco) 
+VALUES 
+    ('2024-04-16', 29.99),
+    ('2024-04-17', 59.99),
+    ('2024-04-17', 79.99);
+
+-- Inserção de dados na tabela CategoriasProdutos
+INSERT INTO CategoriasProdutos (Nome, Descricao) 
+VALUES 
+    ('Roupas', 'Categoria de produtos relacionados a vestuário'),
+    ('Calçados', 'Categoria de produtos relacionados a calçados'),
+    ('Acessórios', 'Categoria de produtos relacionados a acessórios');
+
+-- Inserção de dados na tabela Funcionarios
+INSERT INTO Funcionarios (Nome, Cargo, Departamento) 
+VALUES 
+    ('Ana', 'Vendedora', 'Vendas'),
+    ('Pedro', 'Gerente de Loja', 'Administração'),
+    ('Mariana', 'Assistente de RH', 'Recursos Humanos');
+
+-- Inserção de dados na tabela Fornecedores
+INSERT INTO Fornecedores (Nome, Contato, Endereco) 
+VALUES 
+    ('Fornecedor 1', 'fornecedor1@example.com', 'Rua das Indústrias, 789'),
+    ('Fornecedor 2', 'fornecedor2@example.com', 'Av. das Empresas, 456'),
+    ('Fornecedor 3', 'fornecedor3@example.com', 'Travessa Comercial, 123');
+
+-- Inserção de dados na tabela Vendas
+INSERT INTO Vendas (Data, ID_Cliente, MetodoPagamento, Total) 
+VALUES 
+    ('2024-04-16', 1, 'Cartão de Crédito', 89.98),
+    ('2024-04-17', 2, 'Boleto Bancário', 139.98),
+    ('2024-04-17', 3, 'Cartão de Débito', 169.97);
+
+-- Inserção de dados na tabela Pagamentos
+INSERT INTO Pagamentos (ID_Venda, Data, Valor) 
+VALUES 
+    (1, '2024-04-16', 89.98),
+    (2, '2024-04-17', 139.98),
+    (3, '2024-04-17', 169.97);
+
+-- Inserção de dados na tabela Estoque
+INSERT INTO Estoque (ID_Produto, Quantidade) 
+VALUES 
+    (1, 50),
+    (2, 30),
+    (3, 40);
+
+-- Inserção de dados na tabela Promocoes
+INSERT INTO Promocoes (Nome, Descricao, DataInicio, DataFim) 
+VALUES 
+    ('Promoção de Primavera', 'Descontos especiais em produtos selecionados para a primavera', '2024-04-01', '2024-04-30'),
+    ('Liquidação de Inverno', 'Grande liquidação de inverno em toda a loja', '2024-07-01', '2024-07-31'),
+    ('Oferta do Dia', 'Oferta especial apenas para hoje!', '2024-04-17', '2024-04-17');
+
+-- Inserção de dados na tabela ComentariosAvaliacoes
+INSERT INTO ComentariosAvaliacoes (ID_Produto, ID_Cliente, Comentario, Avaliacao, Data) 
+VALUES 
+    (1, 1, 'Ótima qualidade, recomendo!', 5, '2024-04-16'),
+    (2, 2, 'Chegou rápido, adorei!', 4, '2024-04-17'),
+    (3, 3, 'Produto muito bom, valeu a pena!', 5, '2024-04-17');
+
+INSERT INTO Clientes (Nome, Sobrenome, Endereco, Cidade, CodigoPostal)
+VALUES
+('Paulo', 'Oliveira', 'Av. Central, 789', 'Porto Alegre', '05678-901'),
+('Laura', 'Martins', 'Rua das Palmas, 456', 'Curitiba', '03456-789'),
+('Fernanda', 'Almeida', 'R. dos Girassóis, 234', 'Salvador', '02345-678');
+
+-- Inserção de dados na tabela Produtos
+INSERT INTO Produtos (Nome, Descricao, Preco)
+VALUES
+('Boné', 'Boné de baseball na cor preta', 19.99),
+('Meia', 'Meia esportiva branca, tamanho único', 9.99),
+('Chinelo', 'Chinelo de borracha estampado, tamanho 40', 24.99);
+
+-- Inserção de dados na tabela Pedidos
+INSERT INTO Pedidos (Data_Pedido, ID_Cliente, Total)
+VALUES
+('2024-04-18', 4, 34.97),
+('2024-04-19', 5, 54.98),
+('2024-04-19', 6, 79.97);
+
+-- Inserção de dados na tabela DetalhesPedido
+INSERT INTO DetalhesPedido (ID_Pedido, ID_Produto, Quantidade)
+VALUES
+(4, 4, 1),
+(5, 5, 2),
+(5, 6, 1),
+(6, 4, 3),
+(6, 6, 2);
+
+-- Inserção de dados na tabela Precos
+INSERT INTO Precos (Data_Preco, Preco)
+VALUES
+('2024-04-18', 19.99),
+('2024-04-19', 9.99),
+('2024-04-19', 24.99);
+
+-- Inserção de dados na tabela CategoriasProdutos
+INSERT INTO CategoriasProdutos (Nome, Descricao)
+VALUES
+('Acessórios Esportivos', 'Categoria de acessórios relacionados a esportes'),
+('Meias', 'Categoria de produtos relacionados a meias'),
+('Chinelos', 'Categoria de calçados estilo chinelo');
+
+-- Inserção de dados na tabela Funcionarios
+INSERT INTO Funcionarios (Nome, Cargo, Departamento)
+VALUES
+('Ricardo', 'Atendente', 'Vendas'),
+('Amanda', 'Analista de Compras', 'Compras'),
+('Lucas', 'Estoquista', 'Estoque');
+
+-- Inserção de dados na tabela Fornecedores
+INSERT INTO Fornecedores (Nome, Contato, Endereco)
+VALUES
+('Fornecedor 4', 'fornecedor4@example.com', 'Av. das Indústrias, 987'),
+('Fornecedor 5', 'fornecedor5@example.com', 'Rua das Empresas, 654'),
+('Fornecedor 6', 'fornecedor6@example.com', 'Alameda Comercial, 321');
+
+-- Inserção de dados na tabela Vendas
+INSERT INTO Vendas (Data, ID_Cliente, MetodoPagamento, Total)
+VALUES
+('2024-04-18', 4, 'Cartão de Crédito', 34.97),
+('2024-04-19', 5, 'Boleto Bancário', 54.98),
+('2024-04-19', 6, 'Cartão de Débito', 79.97);
+
+-- Inserção de dados na tabela Pagamentos
+INSERT INTO Pagamentos (ID_Venda, Data, Valor)
+VALUES
+(4, '2024-04-18', 34.97),
+(5, '2024-04-19', 54.98),
+(6, '2024-04-19', 79.97);
+
+-- Inserção de dados na tabela Estoque
+INSERT INTO Estoque (ID_Produto, Quantidade)
+VALUES
+(4, 20),
+(5, 15),
+(6, 25);
+
+-- Inserção de dados na tabela Promocoes
+INSERT INTO Promocoes (Nome, Descricao, DataInicio, DataFim)
+VALUES
+('Promoção de Verão', 'Descontos especiais em produtos selecionados para o verão', '2024-10-01', '2024-10-31'),
+('Liquidação de Outono', 'Grande liquidação de outono em toda a loja', '2024-04-20', '2024-04-30'),
+('Oferta Especial', 'Oferta especial válida por tempo limitado!', '2024-04-19', '2024-04-19');
+
+-- Inserção de dados na tabela ComentariosAvaliacoes
+INSERT INTO ComentariosAvaliacoes (ID_Produto, ID_Cliente, Comentario, Avaliacao, Data)
+VALUES
+(4, 4, 'Ótima qualidade, recomendo!', 5, '2024-04-18'),
+(5, 5, 'Produto excelente, entrega rápida!', 5, '2024-04-19'),
+(6, 6, 'Muito confortável, adorei!', 4, '2024-04-19');
+
+Exercicios SELECT E WHERE
+1-  select * from clientes where Cidade = "São Paulo";
+2-  select * from produtos where Preco > 50;
+3-  select * from funcionarios where Departamento = "Vendas";
+4-  select * from vendas where Data >2023-01-01;
+5-  select * from detalhespedido where ID_Pedido = 1;
+
+Exercicios Insert
+1-  insert into clientes (Nome,Sobrenome,Endereco,Cidade,CodigoPostal) 
+values
+('Maria','Santos','Av. Principal, 456','Rio de Janeiro','04567-890');
+2-  insert into produtos (Nome,Descricao,Preco) 
+values
+('Camisa','Camisa de algodão de cor branca','29.99');
+3-  insert into funcionarios (Nome,Cargo,Departamento) 
+values
+('Ana','Vendedora','Vendas');
+
+Exercicios Delete
+1- Delete from clientes where ID_Cliente = 102;
+2- Delete from produtos where ID_Produto = 1001;
+
